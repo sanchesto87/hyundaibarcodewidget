@@ -1,12 +1,157 @@
 
-<html>
- <head>  
- <title>
-</title>    
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>   
-<link rel="stylesheet" href=""/> 
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="HYUNDAI">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, maximum-scale=1, width=device-width">
+    <title>울산공장 출입예약시스템</title>
+
+
+
+<link rel="stylesheet" media="screen" type="text/css" href="https://racs.hmc.co.kr/css/jquery-ui/jquery-ui.min.css" />
+<!-- tooltip start -->
+<link rel="stylesheet" media="screen" type="text/css" href="https://racs.hmc.co.kr/css/tooltipster/tooltipster.css" />
+<link rel="stylesheet" media="screen" type="text/css" href="https://racs.hmc.co.kr/css/tooltipster/themes/tooltipster-yellow.css" />
+<!-- tooltip end -->
+<link rel="stylesheet" media="screen" type="text/css" href="https://racs.hmc.co.kr/css/common.css"/>
+<link rel="stylesheet" media="screen" type="text/css" href="https://racs.hmc.co.kr/js/com/dhtmlx/dhtmlx.css"/>
+<link rel="stylesheet" media="screen" type="text/css" href="https://racs.hmc.co.kr/js/com/dhtmlx/skins/material/dhtmlx.css"/>
+<link rel="stylesheet" media="screen" type="text/css" href="https://racs.hmc.co.kr/js/com/dhtmlxVault/skins/terrace/dhtmlxvault.css"/>
+<link rel="stylesheet" media="screen" type="text/css" href="https://racs.hmc.co.kr/css/dhtmlx_custom.css"/>
+<script>
+/*
+user strict 명령은 엄격하게 JavaScript 룰을 적용하라는 의미이다.
+일부 브라우저의 경우 use strict 명령을 통해 보다 빠르게 동작하는 경우도 존재하는 것 같다.
+잘못된 부분에 대한 검증도 보다 엄격하게 동작한다.
+하지만, 일부 라이브러리의 경우 use strict 명령을 사용하면 동작하지 않는 경우도 있으므로 주의해야 한다.
+*/
+// "use strict";
+var require = {
+/*
+    baseUrl:
+    JavaScript 파일이 있는 기본 경로를 설정한다.
+    만약 data-main 속성이 사용되었다면, 그 경로가 baseUrl이 된다.
+    data-main 속성은 require.js를 위한 특별한 속성으로 require.js는 스크립트 로딩을 시작하기 위해 이 부분을 체크한다.
+*/
+    baseUrl:"/js/com",
+
+/*
+    paths:
+    path는 baseUrl 아래에서 직접적으로 찾을 수 없는 모듈명들을 위해 경로를 매핑해주는 속성이다.
+    "/"로 시작하거나 "http" 등으로 시작하지 않으면, 기본적으로는 baseUrl에 상대적으로 설정하게 된다.
+
+    paths: {
+        "exam": "aaaa/bbbb"
+    }
+
+    의 형태로 설정한 뒤에, define에서 "exam/module" 로 불러오게 되면, 스크립트 태그에서는 실제로는 src="aaaa/bbbb/module.js" 로 잡을 것이다.
+    path는 또한 아래와 같이 특정 라이브러리 경로 선언을 위해 사용될 수 있는데, path 매핑 코드는 자동적으로 .js 확장자를 붙여서 모듈명을 매핑한다.
+*/
+    paths: {
+        //뒤에 js 확장자는 생략한다.
+         "init": "require/init"
+        ,"dhtmlx": "dhtmlx/dhtmlx"
+        ,"dhtmlx_custom": "vracs/dhtmlx_custom/dhtmlx_custom"
+        ,"dhtmlxvault_custom": "dhtmlxVault/dhtmlxvault_custom"
+        ,"dhtmlxcalendar_custom": "vracs/dhtmlx_custom/dhtmlxcalendar_custom"
+        ,"dhtmlxform_item_image_custom": "vracs/dhtmlx_custom/dhtmlxform_item_image_custom"
+        ,"dhtmlxcombo_custom": "vracs/dhtmlx_custom/dhtmlxcombo_custom"
+        ,"jquery": "min/jquery-3.1.0.min"
+        ,"jquery-ui": "vracs/jquery-ui/jquery-ui.min"
+        ,"sub": "vracs/sub"
+        ,"common": "vracs/common"
+        ,"date": "vracs/date"
+        ,"jquery.mask": "mask/jquery.mask"
+        ,"jquery.tooltipster": "vracs/jquery.tooltipster"
+        ,"jquery.fileDownload": "vracs/jquery.fileDownload"
+        ,"progress": "vracs/progress"
+        ,"session.time.check": "vracs/session.time.check"
+    },
+
+/*
+    shim:
+    AMD 형식을 지원하지 않는 라이브러리의 경우 아래와 같이 SHIM을 사용해서 모듈로 불러올 수 있다.
+    참고 : http://gregfranko.com/blog/require-dot-js-2-dot-0-shim-configuration/
+*/
+    shim: {
+         "dhtmlx_custom": ["jquery", "dhtmlx", "dhtmlxcalendar_custom", "dhtmlxvault_custom"]
+        ,"dhtmlxvault_custom": ["jquery", "dhtmlx"]
+        ,"dhtmlxcalendar_custom": ["jquery", "dhtmlx"]
+        ,"dhtmlxmessage_custom": ["jquery", "dhtmlx"]
+        ,"dhtmlxform_item_image_custom": ["jquery", "dhtmlx"]
+        ,"dhtmlxcombo_custom": ["jquery", "dhtmlx"]
+        ,"jquery-ui": ["jquery"]
+        ,"sub": ["jquery.mask"]
+        ,"common": ["jquery"]
+        ,"jquery.mask" : ["jquery", "dhtmlx"]
+        ,"jquery.tooltipster": ["jquery", "dhtmlx"]
+        ,"jquery.fileDownload": ["jquery", "dhtmlx", "progress"]
+        ,"progress": ["jquery", "dhtmlx"]
+        ,"session.time.check": ["jquery"]
+    }
+    ,waitSeconds: 60
+};
+</script>
+<script src="https://racs.hmc.co.kr/js/com/require/require.js"></script>
+
 </head>
- <body>
-<a href="itms-services://?action=download-manifest&url=https://dl.dropboxusercontent.com/s/udpkyonkvewslc3/manifest.plist"> IOS 받기</a>
-</body>
+    <script>
+    var vracs = {}; // namespace
+    require(['init'], function () {
+
+    });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+.content-position {
+    margin-top: 50px;
+}
+
+.download-button {
+    margin-top: 20px;
+}
+
+.btn.apple {
+    background: #eaeff7 url(https://racs.hmc.co.kr/images/sub/ios_m.png) 2px center no-repeat;
+}
+
+.btn.android {
+    background: #eaeff7 url(https://racs.hmc.co.kr/images/sub/android_m.png) 5px center no-repeat;
+}
+</style>
+
+<div class="content" style="height: 100%;">
+    <div class="content-position">
+        <div class="welcome">WELCOME TO HYUNDAI MOTOR ULSAN PLANT</div>
+        <h1>현대자동차 울산공장</h1>
+        <div class="subHeading">식수인증</div>
+
+	    <div class="download-button">
+		    <a href="itms-services://?action=download-manifest&url=https://dl.dropboxusercontent.com/s/udpkyonkvewslc3/manifest.plist">
+			    <img alt="" src="https://racs.hmc.co.kr/images/download/download_store.png" alt="iOS Download" />
+		    </a>
+		    <a href="https://play.google.com/store/apps/details?id=com.hmc.hyundaibarcode">
+			    <img alt="" src="https://racs.hmc.co.kr/images/download/download_play_store.png" alt="Android Download" />
+	        </a>
+
+	    </div>
+    </div>
+
+</div>
+
 </html>
